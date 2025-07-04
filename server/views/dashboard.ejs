@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Error Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #161616; color: #ffffff; }
+        h1 { color: #d33; }
+        .error-log {
+            background-color: #000000;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .error-log h3 { color: #c00; margin-top: 0; }
+        .error-log p { margin: 5px 0; }
+        .error-log .timestamp { font-size: 0.8em; color: #777; }
+        .error-log .stack {
+            font-family: monospace;
+            white-space: pre-wrap;
+            color: #ddd;
+            background-color: #0f0f0f;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+            max-height: 200px;
+            margin-top: 10px;
+        }
+        .no-errors { color: #555; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>Server Error Dashboard</h1>
+    <% if (errorLogs && errorLogs.length > 0) { %>
+        <% errorLogs.forEach(function(log){ %>
+            <div class="error-log">
+                <h3>Error in <%= log.api %> (Status: <%= log.statusCode %>)</h3>
+                <p class="timestamp"><strong>Timestamp:</strong> <%= log.timestamp %></p>
+                <p><strong>Message:</strong> <%= log.message %></p>
+                <% if (log.stack) { %>
+                    <div class="stack"><strong>Stack Trace:</strong><br><%= log.stack %></div>
+                <% } %>
+            </div>
+        <% }); %>
+    <% } else { %>
+        <p class="no-errors">No errors logged yet.</p>
+    <% } %>
+</body>
+</html>
